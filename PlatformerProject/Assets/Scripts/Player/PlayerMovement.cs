@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private GameOverController gameOverController;
     [SerializeField] private float movementVelocity = 5f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool canJump = true;
     [SerializeField] private PlayerVisualController playerVisualController;
-    
+
+    private int playerLifeCounter = 3;
     private Rigidbody2D _rigidBody = null;
     private float normalizedHorizontalMovement = 0f;
+    private Vector3 playerInitialPosition = Vector3.zero;
 
     private void Awake()
     {
         _rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        playerInitialPosition = transform.position;
     }
 
     private void Update()
@@ -67,6 +71,16 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             canJump = false;
+        }
+    }
+
+    public void RespawnPlayer()
+    {
+        transform.position = playerInitialPosition;
+        playerLifeCounter--;
+        if (playerLifeCounter == 0)
+        {
+            gameOverController.ShowGameOver();
         }
     }
 }
