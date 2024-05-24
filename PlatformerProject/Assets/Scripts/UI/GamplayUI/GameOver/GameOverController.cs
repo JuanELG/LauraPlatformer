@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,10 +7,12 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private Button restartGameButton;
     [SerializeField] private Button goToMainMenuButton;
 
-    private void Awake()
+    //IF GAME OVER CANVAS START INACTIVE, THIS CODE SHOULD BE COMMENTED
+    //BUT IF GAME OVER CANVAS START ACTIVE, THIS CODE SHOULD BE UNCOMMENTED
+    /*private void Awake()
     {
         gameObject.SetActive(false);
-    }
+    }*/
 
     private void OnEnable()
     {

@@ -8,7 +8,7 @@ public class DeathZone : MonoBehaviour
         //COMPARE COLLISIONS WITH COMPONENTS
         if (other.TryGetComponent(out PlayerMovement player))
         {
-            player.RespawnPlayer();
+            GameManager.Instance.PlayerDeath(player);
         }
         
         //COMPARE COLLISIONS WITH TAGS

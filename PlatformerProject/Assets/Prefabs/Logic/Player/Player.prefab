@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7697df080be7c744d9a3a2525a347e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementVelocity: 100
+  gameplayUIController: {fileID: 0}
+  movementVelocity: 300
   jumpForce: 280
   canJump: 1
   playerVisualController: {fileID: 0}
