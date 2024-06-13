@@ -52,12 +52,39 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2039191927759231958, guid: 1347852e809d5454cace80143ce78031, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2492514821368067912, guid: 1347852e809d5454cace80143ce78031, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: FlyerEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2492514821368067912, guid: 1347852e809d5454cace80143ce78031, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5103563472466589063}
   m_SourcePrefab: {fileID: 100100000, guid: 1347852e809d5454cace80143ce78031, type: 3}
+--- !u!1 &3942465982082335318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2492514821368067912, guid: 1347852e809d5454cace80143ce78031, type: 3}
+  m_PrefabInstance: {fileID: 1450514128251548958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5103563472466589063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3942465982082335318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4fdeccc35de9e46ac225f35d52dab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementPointA: {fileID: 0}
+  movementPointB: {fileID: 0}
+  visualController: {fileID: 0}

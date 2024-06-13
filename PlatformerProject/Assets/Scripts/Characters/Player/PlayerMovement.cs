@@ -2,18 +2,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float movementVelocity = 5f;
+    [SerializeField] private CharacterData characterData;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool canJump = true;
-    [SerializeField] private PlayerVisualController playerVisualController;
-    
+    [SerializeField] private CharacterVisualController playerVisualController;
+
     private Rigidbody2D _rigidBody = null;
     private float normalizedHorizontalMovement = 0f;
     private Vector3 playerInitialPosition = Vector3.zero;
+    private float movementVelocity = 0f;
 
     private void Awake()
     {
         _rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        movementVelocity = characterData.GetCharacterBaseVelocity;
         playerInitialPosition = transform.position;
     }
 

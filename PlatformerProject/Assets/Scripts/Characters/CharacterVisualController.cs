@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerVisualController : MonoBehaviour
+public class CharacterVisualController : MonoBehaviour
 {
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -13,12 +13,14 @@ public class PlayerVisualController : MonoBehaviour
 
     public void FlipSprite(bool flipState)
     {
-        spriteRenderer.flipX = flipState;
+        if(spriteRenderer.flipX != flipState)
+            spriteRenderer.flipX = flipState;
     }
 
     public void SetBoolAnimation(string animationParamName, bool parameterState)
     {
-        animator.SetBool(animationParamName, parameterState);
+        if(animator.GetBool(animationParamName) != parameterState)
+            animator.SetBool(animationParamName, parameterState);
     }
 
     public void SetTriggerAnimation(string animationParamName)
