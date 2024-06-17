@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public class CharacterVisualController : MonoBehaviour
 {
+    public event Action OnAttackAnimationFinished;
+    
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
@@ -26,5 +29,10 @@ public class CharacterVisualController : MonoBehaviour
     public void SetTriggerAnimation(string animationParamName)
     {
         animator.SetTrigger(animationParamName);
+    }
+
+    public void RaiseFinishAttackAnimation()
+    {
+        OnAttackAnimationFinished?.Invoke();
     }
 }

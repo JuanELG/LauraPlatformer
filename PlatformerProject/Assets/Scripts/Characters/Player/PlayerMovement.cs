@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDamageable
 {
     [SerializeField] private CharacterData characterData;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool canJump = true;
     [SerializeField] private CharacterVisualController playerVisualController;
+    [SerializeField] private AttackHandler attackHandler;
 
     private Rigidbody2D _rigidBody = null;
     private float normalizedHorizontalMovement = 0f;
@@ -19,6 +20,28 @@ public class PlayerMovement : MonoBehaviour
         playerInitialPosition = transform.position;
     }
 
+    private void OnEnable()
+    {
+        playerVisualController.OnAttackAnimationFinished += DisableAttackHandler;
+        /*playerVisualController.OnAttackAnimationFinished += () =>
+        {
+            attackHandler.DisableAttack();
+            attackValue += attackValue;
+            Debug.Log("Se acabó la animación de ataque");
+        };*/
+    }
+
+    private void OnDisable()
+    {
+        playerVisualController.OnAttackAnimationFinished -= DisableAttackHandler;
+        /*playerVisualController.OnAttackAnimationFinished -= () =>
+        {
+            attackHandler.DisableAttack();
+            attackValue += attackValue;
+            Debug.Log("Se acabó la animación de ataque");
+        };*/
+    }
+
     private void Update()
     {
         normalizedHorizontalMovement = Input.GetAxisRaw("Horizontal"); //1 if right movement and -1 if left movement
@@ -29,10 +52,12 @@ public class PlayerMovement : MonoBehaviour
             if (normalizedHorizontalMovement == 1f)
             {
                 playerVisualController.FlipSprite(false);
+                attackHandler.FlipAttackCollider(false);
             }
             else if (normalizedHorizontalMovement == -1f)
             {
                 playerVisualController.FlipSprite(true);
+                attackHandler.FlipAttackCollider(true);
             }
         }
         else
@@ -44,6 +69,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
             playerVisualController.SetTriggerAnimation("Jump");
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Attack();
         }
     }
 
@@ -77,5 +107,21 @@ public class PlayerMovement : MonoBehaviour
     public void RespawnPlayer()
     {
         transform.position = playerInitialPosition;
+    }
+
+    private void Attack()
+    {
+        attackHandler.Attack();
+        playerVisualController.SetTriggerAnimation("Attack");
+    }
+
+    public void Damage()
+    {
+        GameManager.Instance.PlayerDeath(this);
+    }
+
+    private void DisableAttackHandler()
+    {
+        attackHandler.DisableAttack();
     }
 }

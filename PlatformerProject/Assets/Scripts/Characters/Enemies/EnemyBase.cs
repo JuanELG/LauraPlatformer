@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 
-public abstract class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour, IDamageable
 {
+    [SerializeField] protected AttackHandler attackHandler;
+    [SerializeField] protected DetectionHandler detectionHandler;
+    
     protected GameObject movementPointA = null;
     protected GameObject movementPointB = null;
     protected CharacterVisualController visualController = null;
@@ -13,6 +17,17 @@ public abstract class EnemyBase : MonoBehaviour
     protected void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
+        detectionHandler.OnDamageableDetected += HandleDamageableDetected;
+    }
+
+    private void OnDisable()
+    {
+        visualController.OnAttackAnimationFinished -= DisableAttackHandler;
+        detectionHandler.OnDamageableDetected -= HandleDamageableDetected;
     }
 
     protected void FixedUpdate()
@@ -31,15 +46,35 @@ public abstract class EnemyBase : MonoBehaviour
         movementPointB = waypointB; 
         currentMovementDirectionPoint = movementPointA;
         movementVelocity = characterData.GetCharacterBaseVelocity;
+        
+        visualController.OnAttackAnimationFinished += DisableAttackHandler;
     }
 
     protected void FlipSprite(Vector2 movementDirection)
     {
-        visualController.FlipSprite(movementDirection.x < 0);
+        bool flipState = movementDirection.x < 0;
+        visualController.FlipSprite(flipState);
+        attackHandler.FlipAttackCollider(flipState);
     }
 
     protected void ChangeRunAnimationState(bool state)
     {
         visualController.SetBoolAnimation("IsRunning", state);
+    }
+
+    public void Damage()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void DisableAttackHandler()
+    {
+        attackHandler.DisableAttack();
+    }
+
+    private void HandleDamageableDetected()
+    {
+        attackHandler.Attack();
+        visualController.SetTriggerAnimation("Attack");
     }
 }

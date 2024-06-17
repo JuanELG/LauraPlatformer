@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WalkerEnemy : EnemyBase, IDamageable
+public class WalkerEnemy : EnemyBase
 {
     public override void Move()
     {
@@ -17,10 +17,5 @@ public class WalkerEnemy : EnemyBase, IDamageable
         }
         
         _rigidBody.velocity = new Vector2( movementDirection.x * movementVelocity * Time.fixedDeltaTime, _rigidBody.velocity.y);
-    }
-
-    public void Damage()
-    {
-        throw new System.NotImplementedException();
     }
 }
