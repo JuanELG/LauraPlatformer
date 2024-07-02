@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private bool canJump = true;
     [SerializeField] private CharacterVisualController playerVisualController;
+    [SerializeField] private CharacterVFXController vfxController;
     [SerializeField] private AttackHandler attackHandler;
 
     private Rigidbody2D _rigidBody = null;
@@ -17,6 +18,12 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     {
         _rigidBody = gameObject.GetComponent<Rigidbody2D>();
         movementVelocity = characterData.GetCharacterBaseVelocity;
+        float positionX = SaveLoadController.Instance.LoadFloatData("PLAYER_POSITION_X");
+        float positionY = SaveLoadController.Instance.LoadFloatData("PLAYER_POSITION_Y");
+        if (positionX != -1000000000f && positionY != -1000000000f)
+        {
+            transform.position = new Vector3(positionX, positionY, 0f);
+        }
         playerInitialPosition = transform.position;
     }
 
@@ -86,6 +93,8 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     private void Jump()
     {
         _rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Force);
+        vfxController.PlayJumpVFX();
+        SFXController.Instance.PlayJumpSFX();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -113,6 +122,8 @@ public class PlayerMovement : MonoBehaviour, IDamageable
     {
         attackHandler.Attack();
         playerVisualController.SetTriggerAnimation("Attack");
+        vfxController.PlayAttackVFX();
+        SFXController.Instance.PlayAttackSFX();
     }
 
     public void Damage()
